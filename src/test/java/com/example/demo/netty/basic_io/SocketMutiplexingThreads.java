@@ -20,6 +20,8 @@ import java.util.concurrent.atomic.AtomicInteger;
  * server只监听连接事件
  * worker监听读写事件
  *
+ * 这种模型需要循环遍历，每次都要与内核有一个数据传输的过程
+ *
  * server将监听到的连接事件的读取事件注册到worker线程上
  * 由worker来进行数据读取处理
  *
@@ -119,6 +121,7 @@ class NIOThread extends Thread{
         try {
             while (true){
                 //直接select，询问内核是否有事件到达，因为已经将监听事件注册到selector中，selector只会返回被监听的事件
+                //selector.select()：这个方法调用的是操作系统中的epoll_wait()
                 while (selector.select(1000)>0){
                     //返回有事件到达的集合
                     Set<SelectionKey> selectionKeys = selector.selectedKeys();
