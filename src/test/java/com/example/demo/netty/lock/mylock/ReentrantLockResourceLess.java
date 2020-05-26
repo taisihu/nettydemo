@@ -1,4 +1,4 @@
 package com.example.demo.netty.lock.mylock;
 
-public class ReentrantLockResourceCode {
+public class ReentrantLockResourceLess {
 }
